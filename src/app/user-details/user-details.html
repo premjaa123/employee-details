@@ -1,0 +1,65 @@
+<div class="container">
+  <form #searchForm="ngForm" (ngSubmit)="onSearch()">
+    <mat-form-field class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Enter User Id"
+        name="userId"
+        [(ngModel)]="userId"
+        (ngModelChange)="onSearch()"
+        required
+      />
+    </mat-form-field>
+  </form>
+
+  <div class="render-user-data">
+    <div class="add-container">
+      <h3 class="heading">Employee Details</h3>
+      <button class="add-employee-button" (click)="onAddEmployee()">
+        Add Employee
+      </button>
+
+    </div>
+    <table *ngIf="filteredUsers.length > 0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>User ID</th>
+          <th>Mobile Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let i = index">
+          <td>{{ user.name }}</td>
+          <td>{{ user.userId }}</td>
+          <td>{{ user.mobileNumber }}</td>
+          <td>
+            <button
+              mat-icon-button
+              (click)="onEditEmployee(user, i)"
+              style="
+                font-size: 8px;
+                color: rgb(162, 160, 160);
+                margin-right: 5px;
+              "
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button
+              mat-icon-button
+              (click)="deleteUser(i)"
+              style="font-size: 8px; color: rgb(162, 160, 160)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="filteredUsers.length === 0">No employee found.</p>
+  </div>
+</div>
