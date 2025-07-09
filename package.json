@@ -4,11 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:ssr": "ng build && ng run my-angular-app:server",
+    "build": "ng build --configuration production",
+    "build:ssr": "ng build --configuration production && ng run my-angular-app:server:production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:my-angular-app": "node dist/my-angular-app/server/server.mjs"
+    "serve:ssr:my-angular-app": "node dist/my-angular-app/server/main.js"
   },
   "prettier": {
     "overrides": [
