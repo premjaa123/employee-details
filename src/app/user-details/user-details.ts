@@ -40,26 +40,31 @@ export class UserDetails {
   }
 
   onSearch() {
-    const search = this.userId.trim().toLowerCase();
+    const search = this.userId?.trim().toLowerCase() || '';
+     console.log(this.userList,"userList");
     this.filteredUsers = search
-      ? this.userList.filter((user) =>
-          user.userId.toLowerCase().includes(search)
+      ? this.userList.filter(
+          (user) =>
+            String(user.EAN)?.toLowerCase().includes(search) ||
+            user.Shelflife?.toLowerCase().includes(search) ||
+            user.sku?.toLowerCase().includes(search) ||
+            user.skucode?.toLowerCase().includes(search)
         )
       : [...this.userList];
   }
 
   onReset() {
-  this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
-    this.userList = data;
-    this.filteredUsers = [...this.userList];
-    
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem('userList', JSON.stringify(this.userList));
-    }
+    this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
+      this.userList = data;
+      this.filteredUsers = [...this.userList];
 
-    this.cdr.detectChanges();
-  });
-}
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('userList', JSON.stringify(this.userList));
+      }
+
+      this.cdr.detectChanges();
+    });
+  }
 
   onAddEmployee() {
     const dialogRef = this.dialog.open(AddEmployeeDialog, { width: '400px' });
@@ -79,40 +84,38 @@ export class UserDetails {
     });
   }
 
-deleteUser(index: number) {
-  this.userList.splice(index, 1);
-  this.filteredUsers = [...this.userList];
+  deleteUser(index: number) {
+    this.userList.splice(index, 1);
+    this.filteredUsers = [...this.userList];
 
-  // Update localStorage if applicable
-  if (typeof window !== 'undefined' && window.localStorage) {
-    localStorage.setItem('userList', JSON.stringify(this.userList));
+    // Update localStorage if applicable
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('userList', JSON.stringify(this.userList));
+    }
+
+    this.cdr.detectChanges(); // trigger change detection if needed
   }
 
-  this.cdr.detectChanges(); // trigger change detection if needed
-}
+  onEditEmployee(user: any, index: number) {
+    const dialogRef = this.dialog.open(AddEmployeeDialog, {
+      width: '400px',
+      data: { ...user }, // pass user data to dialog
+    });
 
-onEditEmployee(user: any, index: number) {
-  const dialogRef = this.dialog.open(AddEmployeeDialog, {
-    width: '400px',
-    data: { ...user } // pass user data to dialog
-  });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userList[index] = result; // update the edited user
+        this.filteredUsers = [...this.userList];
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.userList[index] = result; // update the edited user
-      this.filteredUsers = [...this.userList];
+        // Save to localStorage if you use it
+        if (typeof window !== 'undefined' && window.localStorage) {
+          localStorage.setItem('userList', JSON.stringify(this.userList));
+        }
 
-      // Save to localStorage if you use it
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem('userList', JSON.stringify(this.userList));
+        setTimeout(() => {
+          this.cdr.detectChanges();
+        }, 0);
       }
-
-      setTimeout(() => {
-        this.cdr.detectChanges();
-      }, 0);
-    }
-  });
-}
-
-
+    });
+  }
 }

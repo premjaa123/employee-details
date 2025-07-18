@@ -1,17 +1,16 @@
 <div class="container">
-  <form #searchForm="ngForm" (ngSubmit)="onSearch()">
-    <mat-form-field class="search-field">
-      <mat-icon matPrefix>search</mat-icon>
-      <input
-        matInput
-        placeholder="Search Details here..."
-        name="userId"
-        [(ngModel)]="userId"
-        (ngModelChange)="onSearch()"
-        required
-      />
-    </mat-form-field>
-  </form>
+<form #searchForm="ngForm" (ngSubmit)="onSearch()">
+  <mat-form-field class="search-field">
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      placeholder="Search Details here..."
+      name="userId"
+      [(ngModel)]="userId"
+      (ngModelChange)="onSearch()"
+    />
+  </mat-form-field>
+</form>
 
   <div class="render-user-data">
     <div class="add-container">
