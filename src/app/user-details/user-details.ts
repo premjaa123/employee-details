@@ -48,6 +48,19 @@ export class UserDetails {
       : [...this.userList];
   }
 
+  onReset() {
+  this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
+    this.userList = data;
+    this.filteredUsers = [...this.userList];
+    
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('userList', JSON.stringify(this.userList));
+    }
+
+    this.cdr.detectChanges();
+  });
+}
+
   onAddEmployee() {
     const dialogRef = this.dialog.open(AddEmployeeDialog, { width: '400px' });
 

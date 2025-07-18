@@ -4,7 +4,7 @@
       <mat-icon matPrefix>search</mat-icon>
       <input
         matInput
-        placeholder="Enter User Id"
+        placeholder="Search Details here..."
         name="userId"
         [(ngModel)]="userId"
         (ngModelChange)="onSearch()"
@@ -20,21 +20,26 @@
         Add Employee
       </button>
 
+      <button class="add-employee-button" (click)="onReset()">
+        Reset to Default List
+      </button>
     </div>
     <table *ngIf="filteredUsers.length > 0">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>User ID</th>
-          <th>Mobile Number</th>
+          <th>EAN</th>
+          <th>Shelf life</th>
+          <th>sku</th>
+          <th>sku code</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of filteredUsers; let i = index">
-          <td>{{ user.name }}</td>
-          <td>{{ user.userId }}</td>
-          <td>{{ user.mobileNumber }}</td>
+          <td>{{ user.EAN }}</td>
+          <td>{{ user.Shelflife }}</td>
+          <td>{{ user.sku }}</td>
+          <td>{{ user.skucode }}</td>
           <td>
             <button
               mat-icon-button

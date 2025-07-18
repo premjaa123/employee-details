@@ -15,9 +15,10 @@ import { MatButtonModule } from '@angular/material/button';
 export class AddEmployeeDialog implements AfterViewInit, OnInit {
 
   employee = {
-    name: '',
-    userId: '',
-    mobileNumber: ''
+    EAN: '',
+    Shelflife: '',
+    sku: '',
+    skucode: '',
   };
 
   constructor(
@@ -27,6 +28,7 @@ export class AddEmployeeDialog implements AfterViewInit, OnInit {
   ) {}
 
   ngOnInit() {
+    console.log(this.data, "this.daaaa...")
     if (this.data) {
       this.employee = { ...this.data }; // <-- Initialize form fields with data
     }
@@ -44,9 +46,10 @@ export class AddEmployeeDialog implements AfterViewInit, OnInit {
 
   onSubmit() {
     if (
-      this.employee.name &&
-      this.employee.userId &&
-      this.employee.mobileNumber
+      this.employee.EAN &&
+      this.employee.Shelflife &&
+      this.employee.sku && 
+      this.employee.skucode
     ) {
       this.dialogRef.close(this.employee);
     }
