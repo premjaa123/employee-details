@@ -1,22 +1,24 @@
 <div class="container">
-<form #searchForm="ngForm" (ngSubmit)="onSearch()">
-  <mat-form-field class="search-field">
-    <mat-icon matPrefix>search</mat-icon>
-    <input
-      matInput
-      placeholder="Search Details here..."
-      name="userId"
-      [(ngModel)]="userId"
-      (ngModelChange)="onSearch()"
-    />
-  </mat-form-field>
-</form>
+  <form #searchForm="ngForm" (ngSubmit)="onSearch()">
+    <mat-form-field class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Search Details here..."
+        name="userId"
+        [(ngModel)]="userId"
+        (ngModelChange)="onSearch()"
+      />
+    </mat-form-field>
+  </form>
 
-  <div class="render-user-data">
+  <p *ngIf="!userId?.trim()" class="result-data">Search to get details</p>
+
+  <div class="render-user-data" *ngIf="userId?.trim()">
     <div class="add-container">
-      <h3 class="heading">Employee Details</h3>
+      <h3 class="heading">Product List</h3>
       <button class="add-employee-button" (click)="onAddEmployee()">
-        Add Employee
+        Add More
       </button>
 
       <button class="add-employee-button" (click)="onReset()">
@@ -42,6 +44,7 @@
           <td>
             <button
               mat-icon-button
+                class="small-icon-button"
               (click)="onEditEmployee(user, i)"
               style="
                 font-size: 8px;
@@ -54,6 +57,7 @@
 
             <button
               mat-icon-button
+                class="small-icon-button"
               (click)="deleteUser(i)"
               style="font-size: 8px; color: rgb(162, 160, 160)"
             >
@@ -64,6 +68,6 @@
       </tbody>
     </table>
 
-    <p *ngIf="filteredUsers.length === 0">No employee found.</p>
+    <p *ngIf="filteredUsers.length === 0" class="result-data">No Result found.</p>
   </div>
 </div>

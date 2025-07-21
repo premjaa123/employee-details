@@ -1,13 +1,14 @@
 table {
-width:100%;
+  width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
 
-th, td {
+th,
+td {
   padding: 12px 16px;
   border-bottom: 1px solid #e0e0e0;
   text-align: center;
@@ -32,16 +33,15 @@ h3 {
   margin: 80px;
 }
 
-.heading{
-text-decoration: underline;
-font-size: 25px;
+.heading {
+  text-decoration: underline;
+  font-size: 25px;
 }
 
 /* Style the search form */
 form {
   display: flex;
   justify-content: space-around;
- 
 }
 
 /* Style the Material form field */
@@ -80,7 +80,6 @@ mat-icon[matPrefix] {
   background-color: white !important;
 }
 
-
 ::ng-deep input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
   box-shadow: 0 0 0 1000px white inset !important;
@@ -88,8 +87,8 @@ mat-icon[matPrefix] {
   caret-color: #222;
 }
 
-.add-container{
-  display:flex;
+.add-container {
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
@@ -108,4 +107,94 @@ mat-icon[matPrefix] {
 
 .add-employee-button:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.result-data {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  mat-form-field.search-field {
+    min-width: 100%;
+    width: 100%;
+    margin-top: 20px;
+    padding: 0;
+  }
+
+  mat-form-field.search-field input {
+    font-size: 16px;
+  }
+
+  .render-user-data {
+    margin: 20px 0;
+    padding: 0 10px;
+  }
+
+  .add-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .add-employee-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  /* table {
+    font-size: 14px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 8px 12px;
+  } */
+
+  table {
+    width: 100%;
+    font-size: 12px;
+    border-collapse: collapse;
+    display: table; /* not block, so it's a normal table */
+    word-wrap: break-word;
+    table-layout: fixed; /* makes cells evenly sized */
+  }
+
+  th,
+  td {
+    padding: 5px;
+    word-break: break-word;
+    white-space: normal; /* allow text to wrap */
+    text-align: left;
+  }
+
+  thead {
+    background-color: #f5f5f5;
+  }
+
+  tr:hover {
+    background-color: #f0f8ff;
+  }
+
+  h3.heading {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .result-data {
+    font-size: 16px;
+    padding: 10px;
+  }
 }

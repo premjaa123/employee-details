@@ -21,23 +21,88 @@ export class UserDetails {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storedUsers = localStorage.getItem('userList');
-      if (storedUsers) {
-        this.userList = JSON.parse(storedUsers);
-        this.filteredUsers = [...this.userList];
-        return;
+  // ngOnInit() {
+  //   if (typeof window !== 'undefined' && window.localStorage) {
+  //     const storedUsers = localStorage.getItem('userList');
+  //     if (storedUsers) {
+  //       this.userList = JSON.parse(storedUsers);
+  //       this.filteredUsers = [...this.userList];
+  //       return;
+  //     }
+  //   }
+  //   this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
+  //     this.userList = data;
+  //     this.filteredUsers = [...this.userList];
+  //     if (typeof window !== 'undefined' && window.localStorage) {
+  //       localStorage.setItem('userList', JSON.stringify(this.userList));
+  //     }
+  //   });
+  // }
+
+//   ngOnInit() {
+//   if (typeof window !== 'undefined' && window.localStorage) {
+//     const storedUsers = localStorage.getItem('userList');
+//     if (storedUsers) {
+//       try {
+//         const parsedUsers = JSON.parse(storedUsers);
+//         if (Array.isArray(parsedUsers) && parsedUsers.length > 0) {
+//           this.userList = parsedUsers;
+//           this.filteredUsers = [...this.userList];
+//           return;
+//         }
+//       } catch (e) {
+//         console.error('Error parsing localStorage data', e);
+//       }
+//     }
+//   }
+
+//   // fallback to JSON file if nothing is in localStorage
+//   this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
+//     this.userList = data;
+//     this.filteredUsers = [...this.userList];
+//     if (typeof window !== 'undefined' && window.localStorage) {
+//       localStorage.setItem('userList', JSON.stringify(this.userList));
+//     }
+//   });
+// }
+
+
+ngOnInit() {
+  const APP_VERSION = 'v1.0.0'; // 🔁 Update this on every deployment
+
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const storedVersion = localStorage.getItem('appVersion');
+
+    // If version changed, clear old data
+    if (storedVersion !== APP_VERSION) {
+      localStorage.removeItem('userList');
+      localStorage.setItem('appVersion', APP_VERSION);
+    }
+
+    const storedUsers = localStorage.getItem('userList');
+    if (storedUsers) {
+      try {
+        const parsedUsers = JSON.parse(storedUsers);
+        if (Array.isArray(parsedUsers) && parsedUsers.length > 0) {
+          this.userList = parsedUsers;
+          this.filteredUsers = [...this.userList];
+          return;
+        }
+      } catch (e) {
+        console.error('Error parsing localStorage data', e);
       }
     }
-    this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
-      this.userList = data;
-      this.filteredUsers = [...this.userList];
-      if (typeof window !== 'undefined' && window.localStorage) {
-        localStorage.setItem('userList', JSON.stringify(this.userList));
-      }
-    });
   }
+
+  // Fallback: fetch from assets if no data or version mismatch
+  this.http.get<any[]>('assets/user-list.json').subscribe((data) => {
+    this.userList = data;
+    this.filteredUsers = [...this.userList];
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('userList', JSON.stringify(this.userList));
+    }
+  });
+}
 
   onSearch() {
     const search = this.userId?.trim().toLowerCase() || '';
