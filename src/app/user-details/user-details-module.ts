@@ -10,6 +10,8 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { AddEmployeeDialogModule } from '../add-employee-dialog/add-employee-dialog-module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [UserDetails],
@@ -24,7 +26,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatTableModule,
     HttpClientModule,
     AddEmployeeDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [UserDetails],
 })

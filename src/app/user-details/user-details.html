@@ -1,73 +1,92 @@
 <div class="container">
   <form #searchForm="ngForm" (ngSubmit)="onSearch()">
-    <mat-form-field class="search-field">
-      <mat-icon matPrefix>search</mat-icon>
-      <input
-        matInput
-        placeholder="Search Details here..."
-        name="userId"
-        [(ngModel)]="userId"
-        (ngModelChange)="onSearch()"
-      />
-    </mat-form-field>
-  </form>
+    <div>
+      <div class="search-block">
+        <div class="main-heading">Search by EAN</div>
 
-  <p *ngIf="!userId?.trim()" class="result-data">Search to get details</p>
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            placeholder="Enter EAN Number"
+            name="userId"
+            [(ngModel)]="userId"
+          />
+        </mat-form-field>
 
-  <div class="render-user-data" *ngIf="userId?.trim()">
-    <div class="add-container">
-      <h3 class="heading">Product List</h3>
-      <button class="add-employee-button" (click)="onAddEmployee()">
-        Add More
-      </button>
+        <div>
+          <button
+            mat-raised-button
+            class="search-button"
+            color="primary"
+            type="submit"
+          >
+            Search
+          </button>
+        </div>
 
-      <button class="add-employee-button" (click)="onReset()">
-        Reset to Default List
-      </button>
+        <div class="render-user-data">
+          <div
+            *ngIf="
+              (searchPerformed && filteredUsers.length === 0) ||
+              !searchPerformed
+            "
+            class="not-matched"
+          >
+            No matches found
+          </div>
+
+          <div *ngIf="filteredUsers.length > 0" class="matched">
+            <div *ngFor="let user of filteredUsers; let i = index">
+              <p><strong>EAN: </strong> {{ user.EAN }}</p>
+              <p><strong>Shelf Life (days): </strong> {{ user.Shelflife }}</p>
+              <p><strong>SKU: </strong> {{ user.sku }}</p>
+              <p><strong>SKU Code: </strong> {{ user.skucode }}</p>
+              <p><strong>Physical Expiry Date: </strong></p>
+
+              <mat-form-field appearance="outline">
+                <mat-icon matPrefix>event</mat-icon>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  placeholder="Select Physical Expiry Date"
+                  [(ngModel)]="expiryDates[i]"
+                  [name]="'expiryDate' + i"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <div>
+                <button
+                  mat-raised-button
+                  class="check-button"
+                  color="primary"
+                  (click)="checkSuggestion(i, user)"
+                  type="button"
+                >
+                  Check Suggestion
+                </button>
+              </div>
+
+              <div
+                *ngIf="removalDates[i]"
+                style="margin-top: 30px; font-weight: bold"
+                [ngStyle]="{
+                  color: removalDates[i].includes('❌') ? 'red' : 'green'
+                }"
+              >
+                {{ removalDates[i] }}
+              </div>
+
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <table *ngIf="filteredUsers.length > 0">
-      <thead>
-        <tr>
-          <th>EAN</th>
-          <th>Shelf life</th>
-          <th>sku</th>
-          <th>sku code</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of filteredUsers; let i = index">
-          <td>{{ user.EAN }}</td>
-          <td>{{ user.Shelflife }}</td>
-          <td>{{ user.sku }}</td>
-          <td>{{ user.skucode }}</td>
-          <td>
-            <button
-              mat-icon-button
-                class="small-icon-button"
-              (click)="onEditEmployee(user, i)"
-              style="
-                font-size: 8px;
-                color: rgb(162, 160, 160);
-                margin-right: 5px;
-              "
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-
-            <button
-              mat-icon-button
-                class="small-icon-button"
-              (click)="deleteUser(i)"
-              style="font-size: 8px; color: rgb(162, 160, 160)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p *ngIf="filteredUsers.length === 0" class="result-data">No Result found.</p>
-  </div>
+  </form>
 </div>
